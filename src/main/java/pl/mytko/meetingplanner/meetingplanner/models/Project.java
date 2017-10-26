@@ -30,5 +30,5 @@ public class Project {
     private String description;
 
     @ManyToMany(mappedBy = "projects")
-    private Set<User> participants;
+    private Set<User> members;
 }

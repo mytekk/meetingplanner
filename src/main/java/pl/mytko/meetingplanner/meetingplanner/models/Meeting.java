@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 public class Meeting {
@@ -20,5 +21,8 @@ public class Meeting {
     @Column
     @NotNull
     private LocalDateTime end;
+
+    @ManyToMany(mappedBy = "meetings")
+    private Set<User> participants;
 
 }

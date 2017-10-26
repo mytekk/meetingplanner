@@ -36,4 +36,12 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "project_id")
     )
     private Set<Project> projects;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_meeting",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "meeting_id")
+    )
+    private Set<Meeting> meetings;
 }
