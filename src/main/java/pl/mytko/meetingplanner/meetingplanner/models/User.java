@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -12,7 +13,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(name = "first_name")
     @NotNull
     @Length.List({
             @Length(min = 3),
@@ -20,11 +21,19 @@ public class User {
     })
     private String firstName;
 
-    @Column
+    @Column(name = "last_name")
     @NotNull
     @Length.List({
             @Length(min = 3),
             @Length(max = 50)
     })
     private String lastName;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_project",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "project_id")
+    )
+    private Set<Project> projects;
 }

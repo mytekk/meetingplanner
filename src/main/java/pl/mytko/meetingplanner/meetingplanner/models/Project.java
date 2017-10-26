@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 public class Project {
@@ -27,4 +28,7 @@ public class Project {
             @Length(max = 200)
     })
     private String description;
+
+    @ManyToMany(mappedBy = "projects")
+    private Set<User> participants;
 }
