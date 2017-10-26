@@ -25,4 +25,8 @@ public class Meeting {
     @ManyToMany(mappedBy = "meetings")
     private Set<User> participants;
 
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
+
 }

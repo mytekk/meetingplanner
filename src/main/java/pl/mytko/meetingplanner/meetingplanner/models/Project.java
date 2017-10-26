@@ -31,4 +31,7 @@ public class Project {
 
     @ManyToMany(mappedBy = "projects")
     private Set<User> members;
+
+    @OneToMany(mappedBy = "project")
+    private Set<Meeting> meetings;
 }
