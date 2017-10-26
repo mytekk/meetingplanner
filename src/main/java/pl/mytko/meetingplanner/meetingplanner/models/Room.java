@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 public class Room {
@@ -26,4 +27,7 @@ public class Room {
             @Length(max = 50)
     })
     private String description;
+
+    @OneToMany(mappedBy = "room")
+    private Set<Meeting> meetings;
 }

@@ -29,4 +29,8 @@ public class Meeting {
     @JoinColumn(name = "project_id")
     private Project project;
 
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private Room room;
+
 }
