@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>MeetingPlanner</title>
+</head>
+<body>
+<h1>Please log in</h1>
+
+<p th:if="${errorMessage}" th:text="${errorMessage}">error message</p>
+<p th:if="${logoutMessage}" th:text="${logoutMessage}">logout message</p>
+
+<form method="post" action="/login" th:action="@{/login}" class="form-signin">
+
+        <input name="username" type="text" autofocus="true"/>
+        <input name="password" type="password"/>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+        <input type="submit" value="Log in"/>
+
+</form>
+
+</body>
+</html>

@@ -16,12 +16,15 @@ public class HomeController {
     // "/login" POST controller is provided by Spring Security
 
     @GetMapping(path = "/login")
-    public String login(Model model, String errorMessage, String logoutMessage) {
-        if (errorMessage != null) {
+    public String login(Model model, String error, String logout) {
+        System.out.println("jestem w endpoincie!");
+        System.out.println("error message: " + error);
+        System.out.println("logout message: " + logout);
+        if (error != null) {
             model.addAttribute("errorMessage", "Username or password is incorrent");
         }
 
-        if (logoutMessage != null) {
+        if (logout != null) {
             model.addAttribute("logoutMessage", "Logout successful");
         }
 
