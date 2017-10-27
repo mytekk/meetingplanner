@@ -21,7 +21,7 @@ public class User {
 
     @Column
     @NotNull
-    @Size(min = 3, max = 30)
+//    @Size(min = 3, max = 30)
     private String password;
 
     @Column(name = "first_name")
@@ -67,11 +67,10 @@ public class User {
         this.lastName = lastName;
     }
 
-    //=====================================
-
-    public String getUsername() {
-        return username;
+    public User() {
     }
+
+    //=====================================
 
     public String getPassword() {
         return password;
@@ -95,5 +94,20 @@ public class User {
 
     public Set<Role> getRoles() {
         return roles;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    //=====================================
+
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
