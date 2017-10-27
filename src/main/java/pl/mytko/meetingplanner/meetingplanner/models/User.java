@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Entity
@@ -13,20 +14,24 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
+    @NotNull
+    @Size(min = 3, max = 30)
+    private String username;
+
+    @Column
+    @NotNull
+    @Size(min = 3, max = 30)
+    private String password;
+
     @Column(name = "first_name")
     @NotNull
-    @Length.List({
-            @Length(min = 3),
-            @Length(max = 50)
-    })
+    @Size(min = 3, max = 30)
     private String firstName;
 
     @Column(name = "last_name")
     @NotNull
-    @Length.List({
-            @Length(min = 3),
-            @Length(max = 50)
-    })
+    @Size(min = 3, max = 30)
     private String lastName;
 
     @ManyToMany
@@ -44,4 +49,12 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "meeting_id")
     )
     private Set<Meeting> meetings;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles;
 }
