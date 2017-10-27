@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import pl.mytko.meetingplanner.meetingplanner.services.UserDetailsServiceImpl;
 
 @Configuration
@@ -27,12 +28,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
         http
                 .authorizeRequests()
                     .antMatchers("/login", "/", "/home").permitAll()
-                    .antMatchers("/dashboard").hasAnyAuthority("ADMIN", "EMPLOYEE")
-                    .antMatchers("/h2-console/**").hasAnyAuthority("ADMIN")
+                    .antMatchers("/dashboard").hasAnyAuthority("ROLE_ADMIN", "ROLE_EMPLOYEE")
+                    .antMatchers("/h2-console/**").hasAnyAuthority("ROLE_ADMIN")
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()
                     .loginPage("/login")
+                    .defaultSuccessUrl("/dashboard")
                     .permitAll()
                     .and()
                 .logout()

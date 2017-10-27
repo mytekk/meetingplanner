@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>MeetingPlanner</title>
+</head>
+<body>
+<h1 th:text="'Welcome, ' + ${user.username} + '!'">Welcome!</h1>
+
+<a sec:authorize="isAuthenticated()" href="#" th:href="@{/logout}">Log out</a>
+
+<p sec:authorize="hasAuthority('ROLE_ADMIN')">You are administrator of this page.</p>
+
+<p sec:authorize="hasAuthority('ROLE_EMPLOYEE')">You are employee in our company.</p>
+
+
+
+</body>
+</html>

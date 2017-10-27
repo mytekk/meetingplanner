@@ -31,11 +31,22 @@ public class Role {
 
     //=================================
 
+    public Set<User> getUsers() {
+        return users;
+    }
+
     public String getName() {
         return name;
     }
 
-    public Set<User> getUsers() {
-        return users;
+    //=================================
+
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

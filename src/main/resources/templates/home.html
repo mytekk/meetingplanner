@@ -4,8 +4,10 @@
     <title>MeetingPlanner</title>
 </head>
 <body>
-<h1>Welcome!</h1>
+<h1 >Welcome on our page!</h1>
 
-<!--<p>Click <a th:href="@{/hello}">here</a> to see a greeting.</p>-->
+<a sec:authorize="!isAuthenticated()" href="#" th:href="@{/login}">Log in here</a>
+<a sec:authorize="isAuthenticated()" href="#" th:href="@{/dashboard}">You are logged in, please click here to go to your dashboard</a>
+
 </body>
 </html>

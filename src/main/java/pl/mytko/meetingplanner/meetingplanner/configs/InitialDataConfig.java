@@ -31,8 +31,8 @@ public class InitialDataConfig {
     public void init() {
 
         //role
-        Role adminRole = new Role("ADMIN");
-        Role employeeRole = new Role("EMPLOYEE");
+        Role adminRole = new Role("ROLE_ADMIN");
+        Role employeeRole = new Role("ROLE_EMPLOYEE");
 
         jpaRoleRepository.save(adminRole);
         jpaRoleRepository.save(employeeRole);
@@ -41,14 +41,14 @@ public class InitialDataConfig {
         User administrator = new User("admin", "admin", "Janek", "Administracyjny");
         administrator.setPassword(bCryptPasswordEncoder.encode(administrator.getPassword()));
         Set<Role> adminRoleSet = new HashSet<>();
-        adminRoleSet.add(jpaRoleRepository.findByName("ADMIN"));
+        adminRoleSet.add(jpaRoleRepository.findByName("ROLE_ADMIN"));
         administrator.setRoles(adminRoleSet);
         jpaUserRepository.save(administrator);
 
         User pracownik = new User("pracownik", "pracownik", "Piotr", "Pracownikowy");
         pracownik.setPassword(bCryptPasswordEncoder.encode(pracownik.getPassword()));
         Set<Role> employeeRoleSet = new HashSet<>();
-        employeeRoleSet.add(jpaRoleRepository.findByName("EMPLOYEE"));
+        employeeRoleSet.add(jpaRoleRepository.findByName("ROLE_EMPLOYEE"));
         pracownik.setRoles(employeeRoleSet);
         jpaUserRepository.save(pracownik);
 
