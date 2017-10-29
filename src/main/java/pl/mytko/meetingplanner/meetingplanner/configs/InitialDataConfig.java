@@ -72,55 +72,31 @@ public class InitialDataConfig {
         czwartyPracownik.setRoles(employeeRoleSet);
         jpaUserRepository.save(czwartyPracownik);
 
-//        Iterable<User> all = jpaUserRepository.findAll();
-//        Iterator<User> iterator = all.iterator();
-//        while (iterator.hasNext()) {
-//            System.out.println(iterator.next());
-//        }
-
-
         //projekty
-        List<User> firstUserSet = new ArrayList<>();
-        firstUserSet.add(pracownik);
-        firstUserSet.add(drugiPracownik);
-        firstUserSet.add(trzeciPracownik);
-
-        List<User> secondUserSet = new ArrayList<>();
-        secondUserSet.add(pracownik);
-        secondUserSet.add(drugiPracownik);
-        secondUserSet.add(trzeciPracownik);
-        secondUserSet.add(czwartyPracownik);
-
-        List<User> thirdUserSet = new ArrayList<>();
-        thirdUserSet.add(drugiPracownik);
-        thirdUserSet.add(trzeciPracownik);
-
-        List<User> fourthUserSet = new ArrayList<>();
-        fourthUserSet.add(pracownik);
-        fourthUserSet.add(trzeciPracownik);
-        fourthUserSet.add(czwartyPracownik);
-
-        Project project1 = new Project(pracownik, "e-poznan portal internetowy", "projekt polega na przebudowaniu strony epoznan.pl", firstUserSet);
+        Project project1 = new Project(pracownik, "e-poznan portal internetowy", "projekt polega na przebudowaniu strony epoznan.pl");
         jpaProjectRepository.save(project1);
 
-        Project project2 = new Project(drugiPracownik, "blog kulinarny", "projekt dotyczy stworzenia bloga kulinarnego dla Jana Kowalskiego", secondUserSet);
+        Project project2 = new Project(drugiPracownik, "blog kulinarny", "projekt dotyczy stworzenia bloga kulinarnego dla Jana Kowalskiego");
         jpaProjectRepository.save(project2);
 
-        Project project3 = new Project(drugiPracownik, "forum dla kobiet w ciąży", "zaprojektowanie forum internetowego dla ciężarnych", thirdUserSet);
+        Project project3 = new Project(drugiPracownik, "forum dla kobiet w ciąży", "zaprojektowanie forum internetowego dla ciężarnych");
         jpaProjectRepository.save(project3);
 
-        Project project4 = new Project(trzeciPracownik, "portal z cenami paliw", "stworzenie strony z cenami paliw z danego miasta", fourthUserSet);
+        Project project4 = new Project(trzeciPracownik, "portal z cenami paliw", "stworzenie strony z cenami paliw z danego miasta");
         jpaProjectRepository.save(project4);
 
-        System.out.println("PRZYKLADOWY PROJEKT PRZED ZAPISANIEM");
-        System.out.println(project1);
-        System.out.println("-------------");
+        //dodanie projektow do pracownikow
+        pracownik.setProjects(new ArrayList<Project>(Arrays.asList(project1, project2, project4)));
+        jpaUserRepository.save(pracownik);
 
-        Iterable<Project> all2 = jpaProjectRepository.findAll();
-        Iterator<Project> iterator = all2.iterator();
-        while (iterator.hasNext()) {
-            System.out.println(iterator.next());
-        }
+        drugiPracownik.setProjects(new ArrayList<Project>(Arrays.asList(project1, project2, project3)));
+        jpaUserRepository.save(drugiPracownik);
+
+        trzeciPracownik.setProjects(new ArrayList<Project>(Arrays.asList(project1, project2, project3, project4)));
+        jpaUserRepository.save(trzeciPracownik);
+
+        czwartyPracownik.setProjects(new ArrayList<Project>(Arrays.asList(project2, project4)));
+        jpaUserRepository.save(czwartyPracownik);
 
     }
 

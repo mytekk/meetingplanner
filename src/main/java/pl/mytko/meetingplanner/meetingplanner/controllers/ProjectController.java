@@ -60,7 +60,7 @@ public class ProjectController {
         //wyszukuje "mojego" usera na podstawie usename springowego usera - bo username musi byc unikalne
         User user = jpaUserRepository.findByUsername(principal.getUsername());
 
-        List<Project> myProjects = (List<Project>) jpaProjectRepository.findAll();
+        List<Project> myProjects = (List<Project>) jpaProjectRepository.findByMemberOfMembers(user);
 
         model.addAttribute("allProjects", myProjects);
         model.addAttribute("pageTitle", "Projects that I am involved into");

@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -13,6 +14,11 @@ public class Meeting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column
+    @NotNull
+    @Size(min = 3, max = 30)
+    private String title;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

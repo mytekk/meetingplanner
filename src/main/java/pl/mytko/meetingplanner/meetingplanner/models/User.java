@@ -118,6 +118,38 @@ public class User {
         this.roles = roles;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
+
+    public void setMeetings(Set<Meeting> meetings) {
+        this.meetings = meetings;
+    }
+
+    public void setOwnedMeetings(Set<Meeting> ownedMeetings) {
+        this.ownedMeetings = ownedMeetings;
+    }
+
+    public void setOwnedProjects(Set<Project> ownedProjects) {
+        this.ownedProjects = ownedProjects;
+    }
+
     //======================================
 
 

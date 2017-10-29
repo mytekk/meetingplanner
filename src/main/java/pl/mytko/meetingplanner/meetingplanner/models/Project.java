@@ -43,6 +43,12 @@ public class Project {
     //==============================
 
 
+    public Project(User owner, String title, String description) {
+        this.owner = owner;
+        this.title = title;
+        this.description = description;
+    }
+
     public Project(User owner, String title, String description, List<User> members) {
         this.owner = owner;
         this.title = title;
