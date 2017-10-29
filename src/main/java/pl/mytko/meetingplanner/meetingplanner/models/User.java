@@ -43,12 +43,7 @@ public class User {
     )
     private List<Project> projects;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_meeting",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "meeting_id")
-    )
+    @ManyToMany(mappedBy = "participants", fetch = FetchType.EAGER)
     private Set<Meeting> meetings;
 
     @ManyToMany

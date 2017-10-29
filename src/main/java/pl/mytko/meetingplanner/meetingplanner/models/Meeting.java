@@ -32,7 +32,12 @@ public class Meeting {
     @NotNull
     private LocalDateTime end;
 
-    @ManyToMany(mappedBy = "meetings", fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_meeting",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "meeting_id")
+    )
     private Set<User> participants;
 
     @ManyToOne

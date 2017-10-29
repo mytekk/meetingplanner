@@ -118,7 +118,7 @@ public class InitialDataConfig {
         jpaRoomRepository.save(room5);
 
         //spotkania
-        Meeting spotkanie_pierwsze = new Meeting("spotkanie pierwsze",
+        Meeting spotkanie_pierwsze = new Meeting("spotkanie wstępne (projekt 1)",
                 pracownik,
                 LocalDateTime.of(2017, 10, 15, 10, 00, 00),
                 LocalDateTime.of(2017, 10, 15, 11, 00, 00),
@@ -127,7 +127,7 @@ public class InitialDataConfig {
                 room1);
         jpaMeetingRepository.save(spotkanie_pierwsze);
 
-        Meeting spotkanie_drugie = new Meeting("spotkanie pierwsze",
+        Meeting spotkanie_drugie = new Meeting("spotkanie pierwsze (projekt 1)",
                 pracownik,
                 LocalDateTime.of(2017, 10, 20, 11, 00, 00),
                 LocalDateTime.of(2017, 10, 20, 12, 00, 00),
@@ -136,29 +136,29 @@ public class InitialDataConfig {
                 room2);
         jpaMeetingRepository.save(spotkanie_drugie);
 
-        Meeting spotkanie_trzecie = new Meeting("spotkanie drugie",
+        Meeting spotkanie_trzecie = new Meeting("spotkanie drugie (projekt 1)",
                 drugiPracownik,
                 LocalDateTime.of(2017, 10, 21, 13, 00, 00),
                 LocalDateTime.of(2017, 10, 21, 14, 15, 00),
-                new HashSet<User>(Arrays.asList(pracownik, drugiPracownik, trzeciPracownik)),
+                new HashSet<User>(Arrays.asList(drugiPracownik, trzeciPracownik, czwartyPracownik)),
                 project1,
                 room2);
         jpaMeetingRepository.save(spotkanie_trzecie);
 
-        Meeting spotkanie_czwarte = new Meeting("spotkanie trzecie",
+        Meeting spotkanie_czwarte = new Meeting("spotkanie trzecie (projekt 2)",
                 drugiPracownik,
                 LocalDateTime.of(2017, 10, 16, 9, 00, 00),
                 LocalDateTime.of(2017, 10, 16, 11, 00, 00),
-                new HashSet<User>(Arrays.asList(pracownik, drugiPracownik, trzeciPracownik)),
+                new HashSet<User>(Arrays.asList(drugiPracownik, trzeciPracownik)),
                 project2,
                 room3);
         jpaMeetingRepository.save(spotkanie_czwarte);
 
-        Meeting spotkanie_piate = new Meeting("spotkanie pierwsze",
+        Meeting spotkanie_piate = new Meeting("spotkanie pierwsze (projekt 3)",
                 pracownik,
                 LocalDateTime.of(2017, 10, 20, 10, 00, 00),
                 LocalDateTime.of(2017, 10, 20, 11, 30, 00),
-                new HashSet<User>(Arrays.asList(pracownik, drugiPracownik, trzeciPracownik)),
+                new HashSet<User>(Arrays.asList(pracownik, drugiPracownik, trzeciPracownik, czwartyPracownik)),
                 project3,
                 room4);
         jpaMeetingRepository.save(spotkanie_piate);
