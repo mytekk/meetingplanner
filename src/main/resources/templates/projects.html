@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>MeetingPlanner</title>
+</head>
+<body>
+<h1>Projects page</h1>
+
+<h2 th:text="${pageTitle}">Page subtitle</h2>
+
+<ul th:if="${allProjects}">
+    <li th:each="project : ${allProjects}"
+        th:text="${project.title} + '; owner: ' + ${project.owner.firstName} + ' ' + ${project.owner.lastName}">
+        Single project info</li>
+</ul>
+
+
+
+</body>
+</html>
