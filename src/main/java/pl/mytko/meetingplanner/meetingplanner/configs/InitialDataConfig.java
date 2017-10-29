@@ -163,6 +163,15 @@ public class InitialDataConfig {
                 room4);
         jpaMeetingRepository.save(spotkanie_piate);
 
+        Meeting spotkanie_szoste = new Meeting("spotkanie drugie (projekt 3)",
+                pracownik,
+                LocalDateTime.of(2017, 12, 20, 10, 00, 00),
+                LocalDateTime.of(2017, 12, 20, 11, 30, 00),
+                new HashSet<User>(Arrays.asList(pracownik, drugiPracownik, trzeciPracownik, czwartyPracownik)),
+                project3,
+                room4);
+        jpaMeetingRepository.save(spotkanie_szoste);
+
         System.out.println("SPOTKANIE PIERWSZE PRZED ZAPISEM");
         System.out.println(spotkanie_pierwsze);
 

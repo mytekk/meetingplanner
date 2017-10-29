@@ -6,6 +6,8 @@
 <body>
 <h1>Single meeting page</h1>
 
+<p th:text="${message}" style="color:red">Message</p>
+
 <div th:if="${meeting}">
 
     <p th:text="'Meeting title: ' + ${meeting.title}">Meeting title</p>
@@ -27,7 +29,7 @@
 
 </div>
 
-<form method="post" action="/projects/delete/0" th:action="'/projects/delete/' + ${meeting.id}">
+<form method="post" action="/meetings/delete/0" th:action="'/meetings/delete/' + ${meeting.id}">
     <button type="submit">Delete this meeting</button>
 </form>
 

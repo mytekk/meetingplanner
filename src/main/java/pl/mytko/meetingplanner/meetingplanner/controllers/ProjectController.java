@@ -76,11 +76,11 @@ public class ProjectController {
     }
 
     @PostMapping(value = "/delete/{projectId}")
-    public String deleteNewsByIdByPostMethod(@PathVariable("projectId") String projectId) {
+    public String deleteSingleProject(@PathVariable("projectId") String projectId) {
 
         jpaProjectRepository.delete(Long.valueOf(projectId));
 
-        return "redirect:/projects/all";
+        return "redirect:/projects/involved";
     }
 
 }
