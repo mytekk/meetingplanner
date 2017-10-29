@@ -14,6 +14,10 @@ public class Meeting {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User owner;
+
     @Column
     @NotNull
     private LocalDateTime begining;

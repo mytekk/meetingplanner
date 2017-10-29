@@ -7,7 +7,10 @@
 <h1 >Welcome on our page!</h1>
 
 <a sec:authorize="!isAuthenticated()" href="#" th:href="@{/login}">Log in here</a>
+<br>
 <a sec:authorize="isAuthenticated()" href="#" th:href="@{/dashboard}">You are logged in, please click here to go to your dashboard</a>
+<br>
+<a sec:authorize="isAuthenticated()" href="#" th:href="@{/logout}">Log out</a>
 
 </body>
 </html>

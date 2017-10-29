@@ -58,6 +58,12 @@ public class User {
     )
     private Set<Role> roles;
 
+    @OneToMany(mappedBy = "owner")
+    private Set<Meeting> ownedMeetings;
+
+    @OneToMany(mappedBy = "owner")
+    private Set<Project> ownedProjects;
+
     //=====================================
 
     public User(String username, String password, String firstName, String lastName) {
