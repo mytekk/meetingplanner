@@ -38,4 +38,44 @@ public class Project {
 
     @OneToMany(mappedBy = "project")
     private Set<Meeting> meetings;
+
+    //==============================
+
+
+    public Project(User owner, String title, String description, Set<User> members) {
+        this.owner = owner;
+        this.title = title;
+        this.description = description;
+        this.members = members;
+    }
+
+    public Project() {
+    }
+
+    //==================================
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Set<User> getMembers() {
+        return members;
+    }
+
+    public Set<Meeting> getMeetings() {
+        return meetings;
+    }
 }

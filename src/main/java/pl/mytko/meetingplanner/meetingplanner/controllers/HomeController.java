@@ -48,7 +48,6 @@ public class HomeController {
 
     @GetMapping(path = "/dashboard")
     public String dashboard(Model model) {
-
         //z sesji pobieramy "springowego usera"
         org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
