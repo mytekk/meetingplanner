@@ -8,11 +8,23 @@
 
 <h2 th:text="${pageTitle}">Page subtitle</h2>
 
-<ul th:if="${allProjects}">
-    <li th:each="project : ${allProjects}"
-        th:text="${project.title} + '; owner: ' + ${project.owner.firstName} + ' ' + ${project.owner.lastName}">
-        Single project info</li>
-</ul>
+<table th:if="${!allProjects.isEmpty()}">
+    <thead>
+    <th>Title</th>
+    <th>Owner</th>
+    <th>Link do details</th>
+    </thead>
+    <tbody>
+    <tr th:each="project : ${allProjects}">
+        <td th:text="${project.title}">Single project info</td>
+        <td th:text="${project.owner.firstName} + ' ' + ${project.owner.lastName}">Owner</td>
+        <td><a href="#" th:href="'/projects/details/' + ${project.id}">Link do details</a></td>
+    </tr>
+    </tbody>
+</table>
+
+<br><br>
+<a href="/dashboard">Go back to dashboard</a>
 
 
 

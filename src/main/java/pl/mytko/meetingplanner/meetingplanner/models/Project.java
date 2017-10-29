@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -33,8 +34,8 @@ public class Project {
     })
     private String description;
 
-    @ManyToMany(mappedBy = "projects")
-    private Set<User> members;
+    @ManyToMany(mappedBy = "projects", fetch = FetchType.EAGER)
+    private List<User> members;
 
     @OneToMany(mappedBy = "project")
     private Set<Meeting> meetings;
@@ -42,7 +43,7 @@ public class Project {
     //==============================
 
 
-    public Project(User owner, String title, String description, Set<User> members) {
+    public Project(User owner, String title, String description, List<User> members) {
         this.owner = owner;
         this.title = title;
         this.description = description;
@@ -50,6 +51,14 @@ public class Project {
     }
 
     public Project() {
+    }
+
+    public Project(User owner, String title, String description, List<User> members, Set<Meeting> meetings) {
+        this.owner = owner;
+        this.title = title;
+        this.description = description;
+        this.members = members;
+        this.meetings = meetings;
     }
 
     //==================================
@@ -71,11 +80,52 @@ public class Project {
         return description;
     }
 
-    public Set<User> getMembers() {
+    public List<User> getMembers() {
         return members;
     }
 
     public Set<Meeting> getMeetings() {
         return meetings;
     }
+
+    //=====================================
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setMembers(List<User> members) {
+        this.members = members;
+    }
+
+    public void setMeetings(Set<Meeting> meetings) {
+        this.meetings = meetings;
+    }
+
+
+    //=====================================
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", owner=" + owner +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", members=" + members +
+                '}';
+    }
+
 }

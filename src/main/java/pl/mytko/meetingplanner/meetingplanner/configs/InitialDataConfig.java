@@ -11,10 +11,7 @@ import pl.mytko.meetingplanner.meetingplanner.repositories.JpaRoleRepository;
 import pl.mytko.meetingplanner.meetingplanner.repositories.JpaUserRepository;
 
 import javax.annotation.PostConstruct;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 @Configuration
 public class InitialDataConfig {
@@ -83,22 +80,22 @@ public class InitialDataConfig {
 
 
         //projekty
-        HashSet<User> firstUserSet = new HashSet<>();
+        List<User> firstUserSet = new ArrayList<>();
         firstUserSet.add(pracownik);
         firstUserSet.add(drugiPracownik);
         firstUserSet.add(trzeciPracownik);
 
-        HashSet<User> secondUserSet = new HashSet<>();
+        List<User> secondUserSet = new ArrayList<>();
         secondUserSet.add(pracownik);
         secondUserSet.add(drugiPracownik);
         secondUserSet.add(trzeciPracownik);
         secondUserSet.add(czwartyPracownik);
 
-        HashSet<User> thirdUserSet = new HashSet<>();
+        List<User> thirdUserSet = new ArrayList<>();
         thirdUserSet.add(drugiPracownik);
         thirdUserSet.add(trzeciPracownik);
 
-        HashSet<User> fourthUserSet = new HashSet<>();
+        List<User> fourthUserSet = new ArrayList<>();
         fourthUserSet.add(pracownik);
         fourthUserSet.add(trzeciPracownik);
         fourthUserSet.add(czwartyPracownik);
@@ -114,6 +111,17 @@ public class InitialDataConfig {
 
         Project project4 = new Project(trzeciPracownik, "portal z cenami paliw", "stworzenie strony z cenami paliw z danego miasta", fourthUserSet);
         jpaProjectRepository.save(project4);
+
+        System.out.println("PRZYKLADOWY PROJEKT PRZED ZAPISANIEM");
+        System.out.println(project1);
+        System.out.println("-------------");
+
+        Iterable<Project> all2 = jpaProjectRepository.findAll();
+        Iterator<Project> iterator = all2.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+
     }
 
 }
