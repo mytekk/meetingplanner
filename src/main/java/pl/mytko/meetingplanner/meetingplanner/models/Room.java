@@ -30,4 +30,53 @@ public class Room {
 
     @OneToMany(mappedBy = "room")
     private Set<Meeting> meetings;
+
+    //===================================
+
+
+    public Room(String number, String description) {
+        this.number = number;
+        this.description = description;
+    }
+
+    public Room() {
+    }
+
+    //===================================
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Set<Meeting> getMeetings() {
+        return meetings;
+    }
+
+    //===============================
+
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setMeetings(Set<Meeting> meetings) {
+        this.meetings = meetings;
+    }
 }

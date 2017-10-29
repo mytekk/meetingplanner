@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>MeetingPlanner</title>
+</head>
+<body>
+<h1>Meetings page</h1>
+
+<h2 th:text="${pageTitle}">Page subtitle</h2>
+
+<table th:if="${!allMeetings.isEmpty()}">
+    <thead>
+    <th>Title</th>
+    <th>Owner</th>
+    <th>Beginning</th>
+    <th>End</th>
+    <th>Project</th>
+    <th>Room</th>
+    <th>Link to details</th>
+    </thead>
+    <tbody>
+    <tr th:each="meeting : ${allMeetings}">
+        <td th:text="${meeting.title}">Single meeting info</td>
+        <td th:text="${meeting.owner.firstName} + ' ' + ${meeting.owner.lastName}">Owner</td>
+        <td th:text="${meeting.begining}">begining</td>
+        <td th:text="${meeting.end}">end</td>
+        <td th:text="${meeting.project.title}">project title</td>
+        <td th:text="${meeting.room.number}">room number</td>
+        <td><a href="#" th:href="'/meeting/details/' + ${meeting.id}">Link do details</a></td>
+    </tr>
+    </tbody>
+</table>
+
+<br><br>
+<a href="/dashboard">Go back to dashboard</a>
+
+
+
+</body>
+</html>
