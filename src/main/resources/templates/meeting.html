@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>MeetingPlanner</title>
+</head>
+<body>
+<h1>Single meeting page</h1>
+
+<div th:if="${meeting}">
+
+    <p th:text="'Meeting title: ' + ${meeting.title}">Meeting title</p>
+    <p th:text="'Meeting owner: ' + ${meeting.owner.firstName} + ' ' + ${meeting.owner.lastName}">Meeting owner</p>
+    <p th:text="'Meeting beginning: ' + ${meeting.begining}">Meeting begining</p>
+    <p th:text="'Meeting end: ' + ${meeting.end}">Meeting end</p>
+
+    <p>Meeting participants:
+    <ul>
+    <li th:each="participant : ${meeting.participants}"
+        th:text="${participant.firstName} + ' ' + ${participant.lastName}">
+        Meeting participants</li>
+    </ul>
+    </p>
+
+    <p th:text="'Meeting\'s project: ' + ${meeting.project.title}">Meeting's project</p>
+    <p th:text="'Meeting\'s room: ' + ${meeting.room.number} + ' (' + ${meeting.room.description} + ')'">Meeting's room</p>
+
+
+</div>
+
+<form method="post" action="/projects/delete/0" th:action="'/projects/delete/' + ${meeting.id}">
+    <button type="submit">Delete this meeting</button>
+</form>
+
+
+<a href="/dashboard">Go back to dashboard</a>
+
+
+
+</body>
+</html>

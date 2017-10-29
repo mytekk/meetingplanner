@@ -5,6 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.mytko.meetingplanner.meetingplanner.models.Meeting;
 import pl.mytko.meetingplanner.meetingplanner.models.Project;
@@ -68,6 +69,13 @@ public class MeetingController {
         model.addAttribute("pageTitle", "Meetings that I am involved into");
 
         return "meetings";
+    }
+
+    @GetMapping(path = "/details/{value}")
+    public String details(Model model, @PathVariable("value") String param) {
+
+        model.addAttribute("meeting", jpaMeetingRepository.findOne(Long.valueOf(param)));
+        return "meeting";
     }
 
 }
