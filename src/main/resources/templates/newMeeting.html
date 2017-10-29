@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>MeetingPlanner</title>
+</head>
+<body>
+<h1>Single meeting page</h1>
+
+<h2 th:text="${pageTitle}">Page subtitle</h2>
+
+<p th:text="${message}" style="color:red">Message</p>
+
+<form method="post" action="/meetings/add" th:action="'/meetings/add'"">
+
+    <label for="title">Title:</label>
+    <input type="text" name="title" id="title">
+    <br>
+    <input type="hidden" name="owner" value="0" th:value="${user}">
+    <label for="begining">Begining:</label>
+    <input type="datetime-local" name="begining" id="begining" value="2017-08-28T13:01" th:value="${currentDateTime}" />
+    <br>
+    <label for="end">End:</label>
+    <input type="datetime-local" name="end" id="end" value="2017-08-28T13:01" th:value="${defaultEndDateTime}" />
+
+
+    <ul>
+        <li th:each="participant : ${availableParticipants}">
+            <!--th:field="*{participants}"-->
+            <input type="checkbox"  th:id="${participant.id}" name="participants"    th:value="${participant.id}"/>
+            <label th:for="${participant.id}" th:text="${participant.firstName} + ' ' + ${participant.lastName}">name</label>
+        </li>
+    </ul>
+
+
+<!--th:field="*{project}"-->
+    <br>
+    <label for="project">Project:</label>
+    <select name="project" id="project">
+        <option th:each="project: ${availableProjects}" th:value="${project.id}" th:text="${project.title}"></option>
+    </select>
+
+    <br>
+    <label for="room">Room:</label>
+    <select name="room" id="room">
+        <option th:each="room: ${availableRooms}" th:value="${room.id}" th:text="${room.number}"></option>
+    </select>
+
+    <br>
+    <button type="submit">Add new meeting</button>
+</form>
+
+
+<a href="/dashboard">Go back to dashboard</a>
+
+
+
+</body>
+</html>

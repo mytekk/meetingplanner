@@ -74,6 +74,19 @@ public class User {
 
     //=====================================
 
+
+    public Long getId() {
+        return id;
+    }
+
+    public Set<Meeting> getOwnedMeetings() {
+        return ownedMeetings;
+    }
+
+    public Set<Project> getOwnedProjects() {
+        return ownedProjects;
+    }
+
     public String getPassword() {
         return password;
     }

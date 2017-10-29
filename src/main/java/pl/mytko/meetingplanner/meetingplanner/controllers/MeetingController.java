@@ -4,20 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.mytko.meetingplanner.meetingplanner.models.Meeting;
 import pl.mytko.meetingplanner.meetingplanner.models.Project;
 import pl.mytko.meetingplanner.meetingplanner.models.User;
 import pl.mytko.meetingplanner.meetingplanner.repositories.JpaMeetingRepository;
 import pl.mytko.meetingplanner.meetingplanner.repositories.JpaProjectRepository;
+import pl.mytko.meetingplanner.meetingplanner.repositories.JpaRoomRepository;
 import pl.mytko.meetingplanner.meetingplanner.repositories.JpaUserRepository;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Controller
@@ -27,14 +27,17 @@ public class MeetingController {
     private JpaProjectRepository jpaProjectRepository;
     private JpaUserRepository jpaUserRepository;
     private JpaMeetingRepository jpaMeetingRepository;
+    private JpaRoomRepository jpaRoomRepository;
 
     @Autowired
     public MeetingController(JpaProjectRepository jpaProjectRepository,
-                              JpaUserRepository jpaUserRepository,
-                              JpaMeetingRepository jpaMeetingRepository) {
+                             JpaUserRepository jpaUserRepository,
+                             JpaMeetingRepository jpaMeetingRepository,
+                             JpaRoomRepository jpaRoomRepository) {
         this.jpaProjectRepository = jpaProjectRepository;
         this.jpaUserRepository = jpaUserRepository;
         this.jpaMeetingRepository = jpaMeetingRepository;
+        this.jpaRoomRepository = jpaRoomRepository;
     }
 
     @GetMapping(path = "/all")
@@ -114,9 +117,51 @@ public class MeetingController {
             redirectString = "redirect:/meetings/details/" + meetingId;
         }
 
-        redir.addFlashAttribute("message",message);
+        redir.addFlashAttribute("message", message);
 
         return redirectString;
+    }
+
+    @GetMapping(path = "/add")
+    public String add(Model model) {
+        //z sesji pobieramy "springowego usera"
+        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        //wyszukuje "mojego" usera na podstawie usename springowego usera - bo username musi byc unikalne
+        User user = jpaUserRepository.findByUsername(principal.getUsername());
+
+        model.addAttribute("pageTitle", "Ading new meeting");
+        model.addAttribute("user", user);
+        model.addAttribute("currentDateTime", LocalDateTime.now());
+        model.addAttribute("defaultEndDateTime", LocalDateTime.now().plusHours(1));
+        model.addAttribute("availableProjects", jpaProjectRepository.findAll());
+        model.addAttribute("availableRooms", jpaRoomRepository.findAll());
+        model.addAttribute("availableParticipants", jpaUserRepository.findAll());
+
+        return "newMeeting";
+    }
+
+    @PostMapping(path = "/add")
+    public String addNew(Model model, HttpServletRequest request /*@ModelAttribute Meeting meeting*/) {
+
+        System.out.println("JESTEM W POST");
+        String title = request.getParameter("title");
+        String owner = request.getParameter("owner");
+        String begining = request.getParameter("begining");
+        String end = request.getParameter("end");
+        String participants = request.getParameter("participants");
+        String project = request.getParameter("project");
+        String room = request.getParameter("room");
+
+        System.out.println(title);
+        System.out.println(owner);
+        System.out.println(begining);
+        System.out.println(end);
+        System.out.println(participants);
+        System.out.println(project);
+        System.out.println(room);
+
+        return "newMeeting";
     }
 
 }
