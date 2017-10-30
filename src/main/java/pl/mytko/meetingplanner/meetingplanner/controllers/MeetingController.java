@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.mytko.meetingplanner.meetingplanner.models.Meeting;
@@ -18,6 +19,7 @@ import pl.mytko.meetingplanner.meetingplanner.services.UserService;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -131,26 +133,17 @@ public class MeetingController {
         return "newMeeting";
     }
 
-    @PostMapping(path = "/add")
-    public String addNew(Model model, @ModelAttribute Meeting meeting, HttpServletRequest request) {
+    public boolean validateMeetingDates(LocalDateTime begining, LocalDateTime end) {
+        return begining.isBefore(end);
+    }
 
-        System.out.println("JESTEM W POST");
-        System.out.println("Id: " + meeting.getId());
-        System.out.println("Title: " + meeting.getTitle());
-        System.out.println("Owner: " + meeting.getOwner());
-        System.out.println("Begining: " + meeting.getBegining());
-        System.out.println("End: " + meeting.getEnd());
-        System.out.println("Participants: " + meeting.getParticipants());
-        System.out.println("Project: " + meeting.getProject());
-        System.out.println("Room: " + meeting.getRoom());
-        System.out.println("--------------------");
-        System.out.println(request.getParameter("owner"));
-        System.out.println("--------------------");
-        System.out.println(request.getParameter("owner2"));
-        System.out.println("--------------------");
-        System.out.println(request.getParameter("begining-manual"));
-        System.out.println("--------------------");
-        System.out.println(request.getParameter("end-manual"));
+    public boolean validateMeetingDuration(LocalDateTime begining, LocalDateTime end) {
+        long between = ChronoUnit.MINUTES.between(begining, end);
+        return (between >= 15 && between <= 120) ? true : false;
+    }
+
+    @PostMapping(path = "/add")
+    public String addNew(@ModelAttribute Meeting meeting, BindingResult result, Model model, HttpServletRequest request, RedirectAttributes redir) {
 
         meeting.setOwner(userService.getCurrentLoggedUser());
 
@@ -161,21 +154,21 @@ public class MeetingController {
         meeting.setBegining(dateTimeStart);
         meeting.setEnd(dateTimeStop);
 
-        System.out.println("PO ZMIANACH");
-        System.out.println("Id: " + meeting.getId());
-        System.out.println("Title: " + meeting.getTitle());
-        System.out.println("Owner: " + meeting.getOwner());
-        System.out.println("Begining: " + meeting.getBegining());
-        System.out.println("End: " + meeting.getEnd());
-        System.out.println("Participants: " + meeting.getParticipants());
-        System.out.println("Project: " + meeting.getProject());
-        System.out.println("Room: " + meeting.getRoom());
+        if (validateMeetingDates(meeting.getBegining(), meeting.getEnd())) {
+            if (validateMeetingDuration(meeting.getBegining(), meeting.getEnd())) {
+                jpaMeetingRepository.save(meeting);
+                redir.addFlashAttribute("message", "Meeting added");
+            } else {
+                redir.addFlashAttribute("message", "Meeting duration must be between 15 and 120 minutes");
+            }
+        } else {
+            redir.addFlashAttribute("message", "Begining date must be before ending date");
+        }
 
 
-        jpaMeetingRepository.save(meeting);
 
 
-        return "newMeeting";
+        return "redirect:/meetings/my";
     }
 
 }
