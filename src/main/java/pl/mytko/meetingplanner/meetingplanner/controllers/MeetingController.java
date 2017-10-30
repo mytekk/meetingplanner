@@ -13,6 +13,7 @@ import pl.mytko.meetingplanner.meetingplanner.repositories.JpaMeetingRepository;
 import pl.mytko.meetingplanner.meetingplanner.repositories.JpaProjectRepository;
 import pl.mytko.meetingplanner.meetingplanner.repositories.JpaRoomRepository;
 import pl.mytko.meetingplanner.meetingplanner.repositories.JpaUserRepository;
+import pl.mytko.meetingplanner.meetingplanner.services.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -29,16 +30,19 @@ public class MeetingController {
     private JpaUserRepository jpaUserRepository;
     private JpaMeetingRepository jpaMeetingRepository;
     private JpaRoomRepository jpaRoomRepository;
+    private UserService userService;
 
     @Autowired
     public MeetingController(JpaProjectRepository jpaProjectRepository,
                              JpaUserRepository jpaUserRepository,
                              JpaMeetingRepository jpaMeetingRepository,
-                             JpaRoomRepository jpaRoomRepository) {
+                             JpaRoomRepository jpaRoomRepository,
+                             UserService userService) {
         this.jpaProjectRepository = jpaProjectRepository;
         this.jpaUserRepository = jpaUserRepository;
         this.jpaMeetingRepository = jpaMeetingRepository;
         this.jpaRoomRepository = jpaRoomRepository;
+        this.userService = userService;
     }
 
     @GetMapping(path = "/all")
@@ -51,13 +55,10 @@ public class MeetingController {
 
     @GetMapping(path = "/my")
     public String my(Model model) {
-        //z sesji pobieramy "springowego usera"
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        //wyszukuje "mojego" usera na podstawie usename springowego usera - bo username musi byc unikalne
-        User user = jpaUserRepository.findByUsername(principal.getUsername());
+        User currentLoggedUser = userService.getCurrentLoggedUser();
 
-        model.addAttribute("allMeetings", jpaMeetingRepository.findByOwner(user));
+        model.addAttribute("allMeetings", jpaMeetingRepository.findByOwner(currentLoggedUser));
         model.addAttribute("pageTitle", "My meetings");
 
         return "meetings";
@@ -65,13 +66,9 @@ public class MeetingController {
 
     @GetMapping(path = "/involved")
     public String involved(Model model) {
-        //z sesji pobieramy "springowego usera"
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        //wyszukuje "mojego" usera na podstawie usename springowego usera - bo username musi byc unikalne
-        User user = jpaUserRepository.findByUsername(principal.getUsername());
-
-        List<Meeting> myMeetings = (List<Meeting>) jpaMeetingRepository.findByParticipantOfparticipants(user);
+        User currentLoggedUser = userService.getCurrentLoggedUser();
+        List<Meeting> myMeetings = (List<Meeting>) jpaMeetingRepository.findByParticipantOfparticipants(currentLoggedUser);
 
         model.addAttribute("allMeetings", myMeetings);
         model.addAttribute("pageTitle", "Meetings that I am involved into");
@@ -89,11 +86,7 @@ public class MeetingController {
     @PostMapping(value = "/delete/{meetingId}")
     public String deleteSingleMeeting(Model model, @PathVariable("meetingId") String meetingId, RedirectAttributes redir) {
 
-        //z sesji pobieramy "springowego usera"
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        //wyszukuje "mojego" usera na podstawie usename springowego usera - bo username musi byc unikalne
-        User user = jpaUserRepository.findByUsername(principal.getUsername());
+        User currentLoggedUser = userService.getCurrentLoggedUser();
 
         Meeting meetingToDelete = jpaMeetingRepository.findOne(Long.valueOf(meetingId));
         String message = "";
@@ -104,7 +97,7 @@ public class MeetingController {
         User owner = meetingToDelete.getOwner();
         Set<User> participants = meetingToDelete.getParticipants();
 
-        if (user.equals(owner) || participants.contains(user)) {
+        if (currentLoggedUser.equals(owner) || participants.contains(currentLoggedUser)) {
             if (endOfMeetingToDelete.isAfter(now)) {
                 message = "This meeting cannot be deleted, it hasn't finished yet.";
                 redirectString = "redirect:/meetings/details/" + meetingId;
@@ -125,14 +118,9 @@ public class MeetingController {
 
     @GetMapping(path = "/add")
     public String add(Model model) {
-        //z sesji pobieramy "springowego usera"
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        //wyszukuje "mojego" usera na podstawie usename springowego usera - bo username musi byc unikalne
-        User user = jpaUserRepository.findByUsername(principal.getUsername());
 
         model.addAttribute("pageTitle", "Ading new meeting");
-        model.addAttribute("owner", user);
+        model.addAttribute("owner", userService.getCurrentLoggedUser());
         model.addAttribute("currentDateTime", LocalDateTime.now());
         model.addAttribute("defaultEndDateTime", LocalDateTime.now().plusHours(1));
         model.addAttribute("availableProjects", jpaProjectRepository.findAll());
@@ -145,11 +133,6 @@ public class MeetingController {
 
     @PostMapping(path = "/add")
     public String addNew(Model model, @ModelAttribute Meeting meeting, HttpServletRequest request) {
-        //z sesji pobieramy "springowego usera"
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        //wyszukuje "mojego" usera na podstawie usename springowego usera - bo username musi byc unikalne
-        User user = jpaUserRepository.findByUsername(principal.getUsername());
 
         System.out.println("JESTEM W POST");
         System.out.println("Id: " + meeting.getId());
@@ -169,7 +152,7 @@ public class MeetingController {
         System.out.println("--------------------");
         System.out.println(request.getParameter("end-manual"));
 
-        meeting.setOwner(user);
+        meeting.setOwner(userService.getCurrentLoggedUser());
 
         DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
         LocalDateTime dateTimeStart = LocalDateTime.parse(request.getParameter("begining-manual"), formatter);

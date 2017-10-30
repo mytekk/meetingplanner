@@ -35,7 +35,7 @@ public class Project {
     private String description;
 
     @ManyToMany(mappedBy = "projects", fetch = FetchType.EAGER)
-    private List<User> members;
+    private Set<User> members;
 
     @OneToMany(mappedBy = "project")
     private Set<Meeting> meetings;
@@ -49,7 +49,7 @@ public class Project {
         this.description = description;
     }
 
-    public Project(User owner, String title, String description, List<User> members) {
+    public Project(User owner, String title, String description, Set<User> members) {
         this.owner = owner;
         this.title = title;
         this.description = description;
@@ -59,7 +59,7 @@ public class Project {
     public Project() {
     }
 
-    public Project(User owner, String title, String description, List<User> members, Set<Meeting> meetings) {
+    public Project(User owner, String title, String description, Set<User> members, Set<Meeting> meetings) {
         this.owner = owner;
         this.title = title;
         this.description = description;
@@ -86,7 +86,7 @@ public class Project {
         return description;
     }
 
-    public List<User> getMembers() {
+    public Set<User> getMembers() {
         return members;
     }
 
@@ -112,7 +112,7 @@ public class Project {
         this.description = description;
     }
 
-    public void setMembers(List<User> members) {
+    public void setMembers(Set<User> members) {
         this.members = members;
     }
 

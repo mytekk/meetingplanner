@@ -92,16 +92,16 @@ public class InitialDataConfig {
         jpaProjectRepository.save(project4);
 
         //dodanie projektow do pracownikow
-        pracownik.setProjects(new ArrayList<Project>(Arrays.asList(project1, project2, project4)));
+        pracownik.setProjects(new HashSet<Project>(Arrays.asList(project1, project2, project4)));
         jpaUserRepository.save(pracownik);
 
-        drugiPracownik.setProjects(new ArrayList<Project>(Arrays.asList(project1, project2, project3)));
+        drugiPracownik.setProjects(new HashSet<Project>(Arrays.asList(project1, project2, project3)));
         jpaUserRepository.save(drugiPracownik);
 
-        trzeciPracownik.setProjects(new ArrayList<Project>(Arrays.asList(project1, project2, project3, project4)));
+        trzeciPracownik.setProjects(new HashSet<Project>(Arrays.asList(project1, project2, project3, project4)));
         jpaUserRepository.save(trzeciPracownik);
 
-        czwartyPracownik.setProjects(new ArrayList<Project>(Arrays.asList(project2, project4)));
+        czwartyPracownik.setProjects(new HashSet<Project>(Arrays.asList(project2, project4)));
         jpaUserRepository.save(czwartyPracownik);
 
         //sale
@@ -172,15 +172,6 @@ public class InitialDataConfig {
                 room4);
         jpaMeetingRepository.save(spotkanie_szoste);
 
-        System.out.println("SPOTKANIE PIERWSZE PRZED ZAPISEM");
-        System.out.println(spotkanie_pierwsze);
-
-        System.out.println("PO ZAPISIE DO BAZY");
-        Iterable<Meeting> repositoryAll = jpaMeetingRepository.findAll();
-        Iterator<Meeting> iterator = repositoryAll.iterator();
-        while (iterator.hasNext()) {
-            System.out.println(iterator.next());
-        }
 
     }
 

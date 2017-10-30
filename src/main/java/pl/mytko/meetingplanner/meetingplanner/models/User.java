@@ -41,7 +41,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "project_id")
     )
-    private List<Project> projects;
+    private Set<Project> projects;
 
     @ManyToMany(mappedBy = "participants", fetch = FetchType.EAGER)
     private Set<Meeting> meetings;
@@ -94,7 +94,7 @@ public class User {
         return lastName;
     }
 
-    public List<Project> getProjects() {
+    public Set<Project> getProjects() {
         return projects;
     }
 
@@ -137,7 +137,7 @@ public class User {
         this.lastName = lastName;
     }
 
-    public void setProjects(List<Project> projects) {
+    public void setProjects(Set<Project> projects) {
         this.projects = projects;
     }
 

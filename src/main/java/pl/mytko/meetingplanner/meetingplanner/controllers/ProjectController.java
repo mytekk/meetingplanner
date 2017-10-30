@@ -12,6 +12,7 @@ import pl.mytko.meetingplanner.meetingplanner.models.Project;
 import pl.mytko.meetingplanner.meetingplanner.models.User;
 import pl.mytko.meetingplanner.meetingplanner.repositories.JpaProjectRepository;
 import pl.mytko.meetingplanner.meetingplanner.repositories.JpaUserRepository;
+import pl.mytko.meetingplanner.meetingplanner.services.UserService;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -23,11 +24,13 @@ public class ProjectController {
 
     private JpaProjectRepository jpaProjectRepository;
     private JpaUserRepository jpaUserRepository;
+    private UserService userService;
 
     @Autowired
-    public ProjectController(JpaProjectRepository jpaProjectRepository, JpaUserRepository jpaUserRepository) {
+    public ProjectController(JpaProjectRepository jpaProjectRepository, JpaUserRepository jpaUserRepository, UserService userService) {
         this.jpaProjectRepository = jpaProjectRepository;
         this.jpaUserRepository = jpaUserRepository;
+        this.userService = userService;
     }
 
     @GetMapping(path = "/all")
@@ -40,13 +43,10 @@ public class ProjectController {
 
     @GetMapping(path = "/my")
     public String my(Model model) {
-        //z sesji pobieramy "springowego usera"
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        //wyszukuje "mojego" usera na podstawie usename springowego usera - bo username musi byc unikalne
-        User user = jpaUserRepository.findByUsername(principal.getUsername());
+        User currentLoggedUser = userService.getCurrentLoggedUser();
 
-        model.addAttribute("allProjects", jpaProjectRepository.findByOwner(user));
+        model.addAttribute("allProjects", jpaProjectRepository.findByOwner(currentLoggedUser));
         model.addAttribute("pageTitle", "My projects");
 
         return "projects";
@@ -54,13 +54,10 @@ public class ProjectController {
 
     @GetMapping(path = "/involved")
     public String involved(Model model) {
-        //z sesji pobieramy "springowego usera"
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        //wyszukuje "mojego" usera na podstawie usename springowego usera - bo username musi byc unikalne
-        User user = jpaUserRepository.findByUsername(principal.getUsername());
+        User currentLoggedUser = userService.getCurrentLoggedUser();
 
-        List<Project> myProjects = (List<Project>) jpaProjectRepository.findByMemberOfMembers(user);
+        List<Project> myProjects = (List<Project>) jpaProjectRepository.findByMemberOfMembers(currentLoggedUser);
 
         model.addAttribute("allProjects", myProjects);
         model.addAttribute("pageTitle", "Projects that I am involved into");
