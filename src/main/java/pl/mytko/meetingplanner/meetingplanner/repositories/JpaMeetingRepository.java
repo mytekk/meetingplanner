@@ -5,6 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import pl.mytko.meetingplanner.meetingplanner.models.Meeting;
 import pl.mytko.meetingplanner.meetingplanner.models.Project;
+import pl.mytko.meetingplanner.meetingplanner.models.Room;
 import pl.mytko.meetingplanner.meetingplanner.models.User;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface JpaMeetingRepository extends CrudRepository<Meeting, Long> {
 
     @Query("SELECT m FROM Meeting m WHERE :user MEMBER OF m.participants")
     List<Meeting> findByParticipantOfparticipants(@Param("user") User user);
+
+    List<Meeting> findByRoom(Room room);
 }

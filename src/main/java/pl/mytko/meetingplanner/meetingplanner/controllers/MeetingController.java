@@ -9,20 +9,24 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.mytko.meetingplanner.meetingplanner.models.Meeting;
 import pl.mytko.meetingplanner.meetingplanner.models.Project;
+import pl.mytko.meetingplanner.meetingplanner.models.Room;
 import pl.mytko.meetingplanner.meetingplanner.models.User;
 import pl.mytko.meetingplanner.meetingplanner.repositories.JpaMeetingRepository;
 import pl.mytko.meetingplanner.meetingplanner.repositories.JpaProjectRepository;
 import pl.mytko.meetingplanner.meetingplanner.repositories.JpaRoomRepository;
 import pl.mytko.meetingplanner.meetingplanner.repositories.JpaUserRepository;
+import pl.mytko.meetingplanner.meetingplanner.services.MeetingService;
 import pl.mytko.meetingplanner.meetingplanner.services.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/meetings")
@@ -33,18 +37,21 @@ public class MeetingController {
     private JpaMeetingRepository jpaMeetingRepository;
     private JpaRoomRepository jpaRoomRepository;
     private UserService userService;
+    private MeetingService meetingService;
 
     @Autowired
     public MeetingController(JpaProjectRepository jpaProjectRepository,
                              JpaUserRepository jpaUserRepository,
                              JpaMeetingRepository jpaMeetingRepository,
                              JpaRoomRepository jpaRoomRepository,
-                             UserService userService) {
+                             UserService userService,
+                             MeetingService meetingService) {
         this.jpaProjectRepository = jpaProjectRepository;
         this.jpaUserRepository = jpaUserRepository;
         this.jpaMeetingRepository = jpaMeetingRepository;
         this.jpaRoomRepository = jpaRoomRepository;
         this.userService = userService;
+        this.meetingService = meetingService;
     }
 
     @GetMapping(path = "/all")
@@ -133,15 +140,6 @@ public class MeetingController {
         return "newMeeting";
     }
 
-    public boolean validateMeetingDates(LocalDateTime begining, LocalDateTime end) {
-        return begining.isBefore(end);
-    }
-
-    public boolean validateMeetingDuration(LocalDateTime begining, LocalDateTime end) {
-        long between = ChronoUnit.MINUTES.between(begining, end);
-        return (between >= 15 && between <= 120) ? true : false;
-    }
-
     @PostMapping(path = "/add")
     public String addNew(@ModelAttribute Meeting meeting, BindingResult result, Model model, HttpServletRequest request, RedirectAttributes redir) {
 
@@ -154,18 +152,29 @@ public class MeetingController {
         meeting.setBegining(dateTimeStart);
         meeting.setEnd(dateTimeStop);
 
-        if (validateMeetingDates(meeting.getBegining(), meeting.getEnd())) {
-            if (validateMeetingDuration(meeting.getBegining(), meeting.getEnd())) {
-                jpaMeetingRepository.save(meeting);
-                redir.addFlashAttribute("message", "Meeting added");
+        boolean areDatesCorrect = meetingService.validateMeetingDates(meeting.getBegining(), meeting.getEnd());
+        boolean isDurationCorrect = meetingService.validateMeetingDuration(meeting.getBegining(), meeting.getEnd());
+        boolean isRoomAvailable = meetingService.validateRoom(meeting);
+        List<Meeting> colidingMeetings = meetingService.getColidingMeetings(meeting);
+
+
+        if (areDatesCorrect) {
+            if (isDurationCorrect) {
+                if (colidingMeetings.isEmpty()) {
+                    jpaMeetingRepository.save(meeting);
+                    redir.addFlashAttribute("message", "Meeting added");
+                } else {
+                    String collect = colidingMeetings.stream()
+                            .map(e -> e.getTitle() + ", begining: " + e.getBegining() + ", end: " + e.getEnd())
+                            .collect(Collectors.joining(";;"));
+                    redir.addFlashAttribute("message", "There is at least one another meeting in the same room with colising dates: " + collect);
+                }
             } else {
                 redir.addFlashAttribute("message", "Meeting duration must be between 15 and 120 minutes");
             }
         } else {
             redir.addFlashAttribute("message", "Begining date must be before ending date");
         }
-
-
 
 
         return "redirect:/meetings/my";
