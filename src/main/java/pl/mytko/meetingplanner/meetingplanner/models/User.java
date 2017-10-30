@@ -74,17 +74,12 @@ public class User {
 
     //=====================================
 
-
     public Long getId() {
         return id;
     }
 
-    public Set<Meeting> getOwnedMeetings() {
-        return ownedMeetings;
-    }
-
-    public Set<Project> getOwnedProjects() {
-        return ownedProjects;
+    public String getUsername() {
+        return username;
     }
 
     public String getPassword() {
@@ -111,20 +106,16 @@ public class User {
         return roles;
     }
 
-    public String getUsername() {
-        return username;
+    public Set<Meeting> getOwnedMeetings() {
+        return ownedMeetings;
     }
+
+    public Set<Project> getOwnedProjects() {
+        return ownedProjects;
+    }
+
 
     //=====================================
-
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
 
     public void setId(Long id) {
         this.id = id;
@@ -132,6 +123,10 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setFirstName(String firstName) {
@@ -150,6 +145,10 @@ public class User {
         this.meetings = meetings;
     }
 
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
     public void setOwnedMeetings(Set<Meeting> ownedMeetings) {
         this.ownedMeetings = ownedMeetings;
     }
@@ -157,6 +156,7 @@ public class User {
     public void setOwnedProjects(Set<Project> ownedProjects) {
         this.ownedProjects = ownedProjects;
     }
+
 
     //======================================
 

@@ -10,39 +10,44 @@
 
 <p th:text="${message}" style="color:red">Message</p>
 
-<form method="post" action="/meetings/add" th:action="'/meetings/add'"">
+<p th:text="${currentDateTime}">wrgawr</p>
+<p th:text="${owner}">dehset</p>
+<!--value="2017-08-28T13:01"-->
+<!--th:field="*{owner}"-->
+
+<form method="post" action="/meetings/add" th:action="@{/meetings/add}" th:object="${meeting}">
 
     <label for="title">Title:</label>
-    <input type="text" name="title" id="title">
+    <input type="text" th:field="*{title}" name="title" id="title">
     <br>
-    <input type="hidden" name="owner" value="0" th:value="${user}">
+    <input type="hidden" name="owner" value="0" th:value="${owner}" th:field="*{owner}">
+    <input type="hidden" name="owner2" value="0" th:value="${owner}" ">
     <label for="begining">Begining:</label>
-    <input type="datetime-local" name="begining" id="begining" value="2017-08-28T13:01" th:value="${currentDateTime}" />
+    <input type="hidden" name="begining" th:field="*{begining}" th:value="${currentDateTime}" />
+    <input type="datetime-local" name="begining-manual" id="begining"th:value="${currentDateTime}" />
     <br>
     <label for="end">End:</label>
-    <input type="datetime-local" name="end" id="end" value="2017-08-28T13:01" th:value="${defaultEndDateTime}" />
+    <input type="hidden" name="end" th:field="*{end}" th:value="${defaultEndDateTime}" />
+    <input type="datetime-local" name="end-manual" id="end" th:value="${defaultEndDateTime}" />
 
 
     <ul>
         <li th:each="participant : ${availableParticipants}">
-            <!--th:field="*{participants}"-->
-            <input type="checkbox"  th:id="${participant.id}" name="participants"    th:value="${participant.id}"/>
+            <input type="checkbox"  th:id="${participant.id}" name="participants" th:field="*{participants}" th:value="${participant.id}"/>
             <label th:for="${participant.id}" th:text="${participant.firstName} + ' ' + ${participant.lastName}">name</label>
         </li>
     </ul>
 
-
-<!--th:field="*{project}"-->
     <br>
     <label for="project">Project:</label>
     <select name="project" id="project">
-        <option th:each="project: ${availableProjects}" th:value="${project.id}" th:text="${project.title}"></option>
+        <option th:each="project: ${availableProjects}" th:field="*{project}" th:value="${project.id}" th:text="${project.title}"></option>
     </select>
 
     <br>
     <label for="room">Room:</label>
     <select name="room" id="room">
-        <option th:each="room: ${availableRooms}" th:value="${room.id}" th:text="${room.number}"></option>
+        <option th:each="room: ${availableRooms}" th:field="*{room}" th:value="${room.id}" th:text="${room.number}"></option>
     </select>
 
     <br>
