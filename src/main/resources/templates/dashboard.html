@@ -8,7 +8,7 @@
 
 <a sec:authorize="isAuthenticated()" href="#" th:href="@{/logout}">Log out</a>
 
-<p sec:authorize="hasAuthority('ROLE_ADMIN')">You are administrator of this page.</p>
+<p sec:authorize="hasAuthority('ROLE_ADMIN')">You are administrator of this page. You can proceed to <a href="#" th:href="@{/h2-console}">H2 console</a></p>
 
 <p sec:authorize="hasAuthority('ROLE_EMPLOYEE')">You are employee in our company.</p>
 
@@ -20,13 +20,13 @@
 <br>
 <a href="/projects/involved">Projects that I am involved into</a>
 
-<h2>Projects section</h2>
+<h2>Meetings section</h2>
 
 <a href="/meetings/all">All meetings</a>
 <br>
 <a href="/meetings/my">My meetings</a>
 <br>
-<a href="/meetings/involved">Meetings that I am involved into</a>
+<a href="/meetings/involved">Meetings in which I am a participant</a>
 <br>
 <a href="/meetings/add">Add new meeting</a>
 

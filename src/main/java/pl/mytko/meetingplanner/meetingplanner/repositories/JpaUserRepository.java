@@ -6,5 +6,4 @@ import pl.mytko.meetingplanner.meetingplanner.models.User;
 public interface JpaUserRepository extends CrudRepository<User, Long> {
 
     User findByUsername(String username);
-
 }

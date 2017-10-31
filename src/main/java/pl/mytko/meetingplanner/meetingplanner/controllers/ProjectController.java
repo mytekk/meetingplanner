@@ -23,13 +23,11 @@ import java.util.List;
 public class ProjectController {
 
     private JpaProjectRepository jpaProjectRepository;
-    private JpaUserRepository jpaUserRepository;
     private UserService userService;
 
     @Autowired
-    public ProjectController(JpaProjectRepository jpaProjectRepository, JpaUserRepository jpaUserRepository, UserService userService) {
+    public ProjectController(JpaProjectRepository jpaProjectRepository, UserService userService) {
         this.jpaProjectRepository = jpaProjectRepository;
-        this.jpaUserRepository = jpaUserRepository;
         this.userService = userService;
     }
 
@@ -70,14 +68,6 @@ public class ProjectController {
 
         model.addAttribute("project", jpaProjectRepository.findOne(Long.valueOf(param)));
         return "project";
-    }
-
-    @PostMapping(value = "/delete/{projectId}")
-    public String deleteSingleProject(@PathVariable("projectId") String projectId) {
-
-        jpaProjectRepository.delete(Long.valueOf(projectId));
-
-        return "redirect:/projects/involved";
     }
 
 }

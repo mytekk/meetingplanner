@@ -11,9 +11,10 @@ import pl.mytko.meetingplanner.meetingplanner.models.User;
 import java.util.List;
 
 public interface JpaMeetingRepository extends CrudRepository<Meeting, Long> {
+
     List<Meeting> findByOwner(User user);
 
-    @Query("SELECT m FROM Meeting m WHERE :user MEMBER OF m.participants")
+    @Query("SELECT m FROM Meeting m WHERE :user MEMBER OF m.participants ORDER BY m.begining")
     List<Meeting> findByParticipantOfparticipants(@Param("user") User user);
 
     List<Meeting> findByRoom(Room room);

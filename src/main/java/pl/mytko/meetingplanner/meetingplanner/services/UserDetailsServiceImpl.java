@@ -18,8 +18,12 @@ import java.util.Set;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+    private final JpaUserRepository jpaUserRepository;
+
     @Autowired
-    private JpaUserRepository jpaUserRepository;
+    public UserDetailsServiceImpl(JpaUserRepository jpaUserRepository) {
+        this.jpaUserRepository = jpaUserRepository;
+    }
 
     @Override
     @Transactional(readOnly = true)

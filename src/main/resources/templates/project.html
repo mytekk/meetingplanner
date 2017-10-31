@@ -23,16 +23,13 @@
     <p>Project meetings:
     <ul>
         <li th:each="meeting : ${project.meetings}"
-            th:text="${meeting.begining} + ' ' + ${meeting.end}">
+            th:text="'title: ' + ${meeting.title} + '; begining: ' + ${meeting.begining} + '; end: ' + ${meeting.end} + '; room: ' + ${meeting.room.description}">
             Project meeting</li>
     </ul>
     </p>
 
 </div>
 
-<form method="post" action="/projects/delete/0" th:action="'/projects/delete/' + ${project.id}">
-    <button type="submit">Delete this project</button>
-</form>
 
 
 <a href="/dashboard">Go back to dashboard</a>

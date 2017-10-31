@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <title>MeetingPlanner</title>
 </head>
@@ -11,11 +12,14 @@
 
 <form method="post" action="/login" th:action="@{/login}" class="form-signin">
 
-        <input name="username" type="text" autofocus="true"/>
-        <input name="password" type="password"/>
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-
-        <input type="submit" value="Log in"/>
+    <label for="username">Login:</label>
+    <input name="username" type="text" autofocus="true" id="username"/>
+    <br>
+    <label for="password">Password:</label>
+    <input name="password" type="password" id="password"/>
+    <!--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+    <br>
+    <input type="submit" value="Log in"/>
 
 </form>
 

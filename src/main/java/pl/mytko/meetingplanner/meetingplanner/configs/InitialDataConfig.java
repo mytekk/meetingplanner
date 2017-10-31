@@ -58,51 +58,51 @@ public class InitialDataConfig {
         administrator.setRoles(adminRoleSet);
         jpaUserRepository.save(administrator);
 
-        User pracownik = new User("pracownik", "pracownik", "Piotr", "Pracownikowy");
-        pracownik.setPassword(bCryptPasswordEncoder.encode(pracownik.getPassword()));
-        pracownik.setRoles(employeeRoleSet);
-        jpaUserRepository.save(pracownik);
+        User employee_1 = new User("pracownik", "pracownik", "Piotr", "Pracownikowy");
+        employee_1.setPassword(bCryptPasswordEncoder.encode(employee_1.getPassword()));
+        employee_1.setRoles(employeeRoleSet);
+        jpaUserRepository.save(employee_1);
 
-        User drugiPracownik = new User("mytek", "mytek", "Bartek", "Mytko");
-        drugiPracownik.setPassword(bCryptPasswordEncoder.encode(drugiPracownik.getPassword()));
-        drugiPracownik.setRoles(employeeRoleSet);
-        jpaUserRepository.save(drugiPracownik);
+        User employee_2 = new User("mytek", "mytek", "Bartek", "Mytko");
+        employee_2.setPassword(bCryptPasswordEncoder.encode(employee_2.getPassword()));
+        employee_2.setRoles(employeeRoleSet);
+        jpaUserRepository.save(employee_2);
 
-        User trzeciPracownik = new User("maria", "maria", "Maria", "Mytko");
-        trzeciPracownik.setPassword(bCryptPasswordEncoder.encode(trzeciPracownik.getPassword()));
-        trzeciPracownik.setRoles(employeeRoleSet);
-        jpaUserRepository.save(trzeciPracownik);
+        User employee_3 = new User("maria", "maria", "Maria", "Mytko");
+        employee_3.setPassword(bCryptPasswordEncoder.encode(employee_3.getPassword()));
+        employee_3.setRoles(employeeRoleSet);
+        jpaUserRepository.save(employee_3);
 
-        User czwartyPracownik = new User("mietek", "mietek", "Mieczysław", "Mytko");
-        czwartyPracownik.setPassword(bCryptPasswordEncoder.encode(czwartyPracownik.getPassword()));
-        czwartyPracownik.setRoles(employeeRoleSet);
-        jpaUserRepository.save(czwartyPracownik);
+        User employee_4 = new User("mietek", "mietek", "Mieczysław", "Mytko");
+        employee_4.setPassword(bCryptPasswordEncoder.encode(employee_4.getPassword()));
+        employee_4.setRoles(employeeRoleSet);
+        jpaUserRepository.save(employee_4);
 
         //projekty
-        Project project1 = new Project(pracownik, "e-poznan portal internetowy", "projekt polega na przebudowaniu strony epoznan.pl");
+        Project project1 = new Project(employee_1, "e-poznan portal internetowy", "projekt polega na przebudowaniu strony epoznan.pl");
         jpaProjectRepository.save(project1);
 
-        Project project2 = new Project(drugiPracownik, "blog kulinarny", "projekt dotyczy stworzenia bloga kulinarnego dla Jana Kowalskiego");
+        Project project2 = new Project(employee_2, "blog kulinarny", "projekt dotyczy stworzenia bloga kulinarnego dla Jana Kowalskiego");
         jpaProjectRepository.save(project2);
 
-        Project project3 = new Project(drugiPracownik, "forum dla kobiet w ciąży", "zaprojektowanie forum internetowego dla ciężarnych");
+        Project project3 = new Project(employee_2, "forum dla kobiet w ciąży", "zaprojektowanie forum internetowego dla ciężarnych");
         jpaProjectRepository.save(project3);
 
-        Project project4 = new Project(trzeciPracownik, "portal z cenami paliw", "stworzenie strony z cenami paliw z danego miasta");
+        Project project4 = new Project(employee_3, "portal z cenami paliw", "stworzenie strony z cenami paliw z danego miasta");
         jpaProjectRepository.save(project4);
 
         //dodanie projektow do pracownikow
-        pracownik.setProjects(new HashSet<Project>(Arrays.asList(project1, project2, project4)));
-        jpaUserRepository.save(pracownik);
+        employee_1.setProjects(new HashSet<Project>(Arrays.asList(project1, project2, project4)));
+        jpaUserRepository.save(employee_1);
 
-        drugiPracownik.setProjects(new HashSet<Project>(Arrays.asList(project1, project2, project3)));
-        jpaUserRepository.save(drugiPracownik);
+        employee_2.setProjects(new HashSet<Project>(Arrays.asList(project1, project2, project3)));
+        jpaUserRepository.save(employee_2);
 
-        trzeciPracownik.setProjects(new HashSet<Project>(Arrays.asList(project1, project2, project3, project4)));
-        jpaUserRepository.save(trzeciPracownik);
+        employee_3.setProjects(new HashSet<Project>(Arrays.asList(project1, project2, project3, project4)));
+        jpaUserRepository.save(employee_3);
 
-        czwartyPracownik.setProjects(new HashSet<Project>(Arrays.asList(project2, project4)));
-        jpaUserRepository.save(czwartyPracownik);
+        employee_4.setProjects(new HashSet<Project>(Arrays.asList(project2, project4)));
+        jpaUserRepository.save(employee_4);
 
         //sale
         Room room1 = new Room("0-1", "salka nr 1");
@@ -119,55 +119,55 @@ public class InitialDataConfig {
 
         //spotkania
         Meeting spotkanie_pierwsze = new Meeting("spotkanie wstępne (projekt 1)",
-                pracownik,
+                employee_1,
                 LocalDateTime.of(2017, 10, 15, 10, 00, 00),
                 LocalDateTime.of(2017, 10, 15, 11, 00, 00),
-                new HashSet<User>(Arrays.asList(pracownik, drugiPracownik, trzeciPracownik)),
+                new HashSet<User>(Arrays.asList(employee_1, employee_2, employee_3)),
                 project1,
                 room1);
         jpaMeetingRepository.save(spotkanie_pierwsze);
 
         Meeting spotkanie_drugie = new Meeting("spotkanie pierwsze (projekt 1)",
-                pracownik,
+                employee_1,
                 LocalDateTime.of(2017, 10, 20, 11, 00, 00),
                 LocalDateTime.of(2017, 10, 20, 12, 00, 00),
-                new HashSet<User>(Arrays.asList(pracownik, drugiPracownik, trzeciPracownik)),
+                new HashSet<User>(Arrays.asList(employee_1, employee_2, employee_3)),
                 project1,
                 room2);
         jpaMeetingRepository.save(spotkanie_drugie);
 
         Meeting spotkanie_trzecie = new Meeting("spotkanie drugie (projekt 1)",
-                drugiPracownik,
+                employee_2,
                 LocalDateTime.of(2017, 10, 21, 13, 00, 00),
                 LocalDateTime.of(2017, 10, 21, 14, 15, 00),
-                new HashSet<User>(Arrays.asList(drugiPracownik, trzeciPracownik, czwartyPracownik)),
+                new HashSet<User>(Arrays.asList(employee_2, employee_3, employee_4)),
                 project1,
                 room2);
         jpaMeetingRepository.save(spotkanie_trzecie);
 
         Meeting spotkanie_czwarte = new Meeting("spotkanie trzecie (projekt 2)",
-                drugiPracownik,
+                employee_2,
                 LocalDateTime.of(2017, 10, 16, 9, 00, 00),
                 LocalDateTime.of(2017, 10, 16, 11, 00, 00),
-                new HashSet<User>(Arrays.asList(drugiPracownik, trzeciPracownik)),
+                new HashSet<User>(Arrays.asList(employee_2, employee_3)),
                 project2,
                 room3);
         jpaMeetingRepository.save(spotkanie_czwarte);
 
         Meeting spotkanie_piate = new Meeting("spotkanie pierwsze (projekt 3)",
-                pracownik,
+                employee_1,
                 LocalDateTime.of(2017, 10, 20, 10, 00, 00),
                 LocalDateTime.of(2017, 10, 20, 11, 30, 00),
-                new HashSet<User>(Arrays.asList(pracownik, drugiPracownik, trzeciPracownik, czwartyPracownik)),
+                new HashSet<User>(Arrays.asList(employee_1, employee_2, employee_3, employee_4)),
                 project3,
                 room4);
         jpaMeetingRepository.save(spotkanie_piate);
 
         Meeting spotkanie_szoste = new Meeting("spotkanie drugie (projekt 3)",
-                pracownik,
+                employee_1,
                 LocalDateTime.of(2017, 12, 20, 10, 00, 00),
                 LocalDateTime.of(2017, 12, 20, 11, 30, 00),
-                new HashSet<User>(Arrays.asList(pracownik, drugiPracownik, trzeciPracownik, czwartyPracownik)),
+                new HashSet<User>(Arrays.asList(employee_1, employee_2, employee_3, employee_4)),
                 project3,
                 room4);
         jpaMeetingRepository.save(spotkanie_szoste);
