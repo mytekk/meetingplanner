@@ -26,7 +26,8 @@
     <input type="hidden" name="end" th:field="*{end}" th:value="${defaultEndDateTime}" />
     <input type="datetime-local" name="end-manual" id="end" th:value="${defaultEndDateTime}" />
 
-
+    <br>
+    <label>Choose participants:</label>
     <ul>
         <li th:each="participant : ${availableParticipants}">
             <input type="checkbox"  th:id="${participant.id}" name="participants" th:field="*{participants}" th:value="${participant.id}"/>
